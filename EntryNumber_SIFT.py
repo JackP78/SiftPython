@@ -1,14 +1,12 @@
 import cv2
-from EntryNumber_extrema_detection import find_keypoints, calculate_difference_of_gaussian
+from EntryNumber_extrema_detection import detect_keypoints_local_extrema
 from EntryNumber_Keypoint_Localization import localize_keypoints
 from EntryNumber_Orientation_assignment import assign_keypoint_orientations
 
 
 def perform_sift(img):
-    dog_images = calculate_difference_of_gaussian(img, 4)
-    print (f'lenght of dog_images: {len(dog_images)}')
-
-    extrema_points = find_keypoints(dog_images)
+    
+    extrema_points = detect_keypoints_local_extrema(img)
     print(f'lenght of points after DOG: {len(extrema_points)}')
     # Display the original image with keypoints
     image_with_keypoints = cv2.drawKeypoints(img, [cv2.KeyPoint(x=0.5 * (2 ** octave) * j, y=0.5 * (2 ** octave) * i, _size=10) for octave, i in extrema_points for j in range(1, dog_images[octave].shape[1] - 1)], None)
